@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "timestamp": "2026-05-18T12:04:17.349951",
+    "stage": "STAGE_1_INITIALIZATION",
+    "seq1_length": 1479,
+    "seq2_length": 1479,
+    "matrix_dimension": "1480x1480"
+  },
+  "parameters": {
+    "match_score": 2,
+    "mismatch_score": -1,
+    "gap_penalty": -1
+  },
+  "sequences": {
+    "seq1_preview": "ATGAGATGTGTGGGAGTAGGAAACAGAGATTTTGTGGAAGGCCTATCAGGAGCTACGTGGGTTGACGTGGTGCTCGAGCACGGTGGGTGTGTGACTACCA...",
+    "seq2_preview": "ATGAGATGTGTGGGAGTAGGAAACAGAGATTTCGTGGAAGGTCTATCAGGAGCTACATGGGTTGACGTGGTGCTCGAACACGGTGGGTGTGTGACTACCA..."
+  },
+  "statistics": {
+    "rows": 1480,
+    "cols": 1480,
+    "total_cells": 2190400,
+    "min_value": -1479,
+    "max_value": 0,
+    "seq1_length": 1479,
+    "seq2_length": 1479
+  }
+}
