@@ -1,0 +1,44 @@
+# Ringkasan Hasil Alignment Needleman-Wunsch
+
+# Dataset
+Referensi 1973: gen Envelope Dengue hasil slicing posisi 499-1977 (1479 bp)
+Varian 2020: region Envelope protein E Dengue (1479 bp)
+
+# Parameter Scoring
+Match = +2
+Mismatch = -1
+Gap = -1
+
+# Hasil Kuantitatif
+Skor alignment akhir = 2766
+Panjang alignment = 1479 bp
+Jumlah match = 1415
+Jumlah mismatch/substitusi = 64
+Jumlah gap = 0 (insersi 0, delesi 0)
+Persentase identity = 95.6728%
+Total posisi berbeda = 64
+
+# Interpretasi Singkat
+Hasil alignment menunjukkan identity sebesar 95.6728%, sehingga sekuens Envelope Dengue tahun 1973 dan 2020 masih memiliki tingkat kemiripan yang tinggi.
+Walaupun demikian, terdapat 64 posisi berbeda pada region yang dibandingkan. Karena jumlah gap adalah 0, perbedaan yang muncul didominasi oleh substitusi basa, bukan insersi atau delesi.
+
+# Cuplikan Alignment
+Pos 1-70
+1973 : ATGAGATGTGTGGGAGTAGGAAACAGAGATTTTGTGGAAGGCCTATCAGGAGCTACGTGGGTTGACGTGG
+       ||||||||||||||||||||||||||||||||*||||||||*||||||||||||||*|||||||||||||
+2020 : ATGAGATGTGTGGGAGTAGGAAACAGAGATTTCGTGGAAGGTCTATCAGGAGCTACATGGGTTGACGTGG
+
+Pos 71-140
+1973 : TGCTCGAGCACGGTGGGTGTGTGACTACCATGGCTAAGAACAAGCCCACGCTGGATATAGAGCTCCAGAA
+       |||||||*||||||||||||||||||||||||||*||||||||||||||||||||*||||||||||||||
+2020 : TGCTCGAACACGGTGGGTGTGTGACTACCATGGCCAAGAACAAGCCCACGCTGGACATAGAGCTCCAGAA
+
+Pos 141-210
+1973 : GACCGAGGCCACCCAACTGGCGACCCTAAGGAAACTATGTATTGAGGGAAAAATTACCAACGTAACAACC
+       |||||||||||||||||||||*|||||||||||||||||*||||||||||||||*|||||*||*||||||
+2020 : GACCGAGGCCACCCAACTGGCAACCCTAAGGAAACTATGCATTGAGGGAAAAATCACCAATGTGACAACC
+
+Pos 211-280
+1973 : GACTCAAGGTGCCCCACCCAAGGGGAAGCGATTTTACCTGAGGAGCAGGACCAGAACTACGTGTGTAAGC
+       |||||||||||||||||||||||||||||||||*||||||||||||||||*|||||||||||||||||||
+2020 : GACTCAAGGTGCCCCACCCAAGGGGAAGCGATTCTACCTGAGGAGCAGGATCAGAACTACGTGTGTAAGC

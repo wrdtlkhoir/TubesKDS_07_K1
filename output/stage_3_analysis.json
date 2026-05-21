@@ -1,0 +1,538 @@
+{
+  "metadata": {
+    "timestamp": "2026-05-21T22:57:40.142654",
+    "stage": "STAGE_3_ANALYSIS",
+    "comparison": "Dengue 1973 envelope gene vs Dengue 2020 envelope protein E region"
+  },
+  "quantitative_summary": {
+    "alignment_length": 1479,
+    "matches": 1415,
+    "mismatches": 64,
+    "gaps": 0,
+    "identity_pct": 95.6728,
+    "alignment_score": 2766,
+    "mutation_events": 64,
+    "substitutions": 64,
+    "insertions_in_2020": 0,
+    "deletions_in_2020": 0
+  },
+  "mutation_positions": [
+    {
+      "alignment_index": 33,
+      "event_type": "substitution",
+      "position_1973_envelope": 33,
+      "position_2020": 33,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 42,
+      "event_type": "substitution",
+      "position_1973_envelope": 42,
+      "position_2020": 42,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 57,
+      "event_type": "substitution",
+      "position_1973_envelope": 57,
+      "position_2020": 57,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 78,
+      "event_type": "substitution",
+      "position_1973_envelope": 78,
+      "position_2020": 78,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 105,
+      "event_type": "substitution",
+      "position_1973_envelope": 105,
+      "position_2020": 105,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 126,
+      "event_type": "substitution",
+      "position_1973_envelope": 126,
+      "position_2020": 126,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 162,
+      "event_type": "substitution",
+      "position_1973_envelope": 162,
+      "position_2020": 162,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 180,
+      "event_type": "substitution",
+      "position_1973_envelope": 180,
+      "position_2020": 180,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 195,
+      "event_type": "substitution",
+      "position_1973_envelope": 195,
+      "position_2020": 195,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 201,
+      "event_type": "substitution",
+      "position_1973_envelope": 201,
+      "position_2020": 201,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 204,
+      "event_type": "substitution",
+      "position_1973_envelope": 204,
+      "position_2020": 204,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 244,
+      "event_type": "substitution",
+      "position_1973_envelope": 244,
+      "position_2020": 244,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 261,
+      "event_type": "substitution",
+      "position_1973_envelope": 261,
+      "position_2020": 261,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 363,
+      "event_type": "substitution",
+      "position_1973_envelope": 363,
+      "position_2020": 363,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 364,
+      "event_type": "substitution",
+      "position_1973_envelope": 364,
+      "position_2020": 364,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 371,
+      "event_type": "substitution",
+      "position_1973_envelope": 371,
+      "position_2020": 371,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 390,
+      "event_type": "substitution",
+      "position_1973_envelope": 390,
+      "position_2020": 390,
+      "base_1973": "G",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 393,
+      "event_type": "substitution",
+      "position_1973_envelope": 393,
+      "position_2020": 393,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 432,
+      "event_type": "substitution",
+      "position_1973_envelope": 432,
+      "position_2020": 432,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 441,
+      "event_type": "substitution",
+      "position_1973_envelope": 441,
+      "position_2020": 441,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 465,
+      "event_type": "substitution",
+      "position_1973_envelope": 465,
+      "position_2020": 465,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 483,
+      "event_type": "substitution",
+      "position_1973_envelope": 483,
+      "position_2020": 483,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 507,
+      "event_type": "substitution",
+      "position_1973_envelope": 507,
+      "position_2020": 507,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 510,
+      "event_type": "substitution",
+      "position_1973_envelope": 510,
+      "position_2020": 510,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 567,
+      "event_type": "substitution",
+      "position_1973_envelope": 567,
+      "position_2020": 567,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 585,
+      "event_type": "substitution",
+      "position_1973_envelope": 585,
+      "position_2020": 585,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 618,
+      "event_type": "substitution",
+      "position_1973_envelope": 618,
+      "position_2020": 618,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 621,
+      "event_type": "substitution",
+      "position_1973_envelope": 621,
+      "position_2020": 621,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 663,
+      "event_type": "substitution",
+      "position_1973_envelope": 663,
+      "position_2020": 663,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 690,
+      "event_type": "substitution",
+      "position_1973_envelope": 690,
+      "position_2020": 690,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 726,
+      "event_type": "substitution",
+      "position_1973_envelope": 726,
+      "position_2020": 726,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 735,
+      "event_type": "substitution",
+      "position_1973_envelope": 735,
+      "position_2020": 735,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 828,
+      "event_type": "substitution",
+      "position_1973_envelope": 828,
+      "position_2020": 828,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 837,
+      "event_type": "substitution",
+      "position_1973_envelope": 837,
+      "position_2020": 837,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 843,
+      "event_type": "substitution",
+      "position_1973_envelope": 843,
+      "position_2020": 843,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 849,
+      "event_type": "substitution",
+      "position_1973_envelope": 849,
+      "position_2020": 849,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 902,
+      "event_type": "substitution",
+      "position_1973_envelope": 902,
+      "position_2020": 902,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 903,
+      "event_type": "substitution",
+      "position_1973_envelope": 903,
+      "position_2020": 903,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 912,
+      "event_type": "substitution",
+      "position_1973_envelope": 912,
+      "position_2020": 912,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 933,
+      "event_type": "substitution",
+      "position_1973_envelope": 933,
+      "position_2020": 933,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 939,
+      "event_type": "substitution",
+      "position_1973_envelope": 939,
+      "position_2020": 939,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 966,
+      "event_type": "substitution",
+      "position_1973_envelope": 966,
+      "position_2020": 966,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 984,
+      "event_type": "substitution",
+      "position_1973_envelope": 984,
+      "position_2020": 984,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 1002,
+      "event_type": "substitution",
+      "position_1973_envelope": 1002,
+      "position_2020": 1002,
+      "base_1973": "T",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 1032,
+      "event_type": "substitution",
+      "position_1973_envelope": 1032,
+      "position_2020": 1032,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 1080,
+      "event_type": "substitution",
+      "position_1973_envelope": 1080,
+      "position_2020": 1080,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 1085,
+      "event_type": "substitution",
+      "position_1973_envelope": 1085,
+      "position_2020": 1085,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 1107,
+      "event_type": "substitution",
+      "position_1973_envelope": 1107,
+      "position_2020": 1107,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 1125,
+      "event_type": "substitution",
+      "position_1973_envelope": 1125,
+      "position_2020": 1125,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 1129,
+      "event_type": "substitution",
+      "position_1973_envelope": 1129,
+      "position_2020": 1129,
+      "base_1973": "G",
+      "base_2020": "A"
+    },
+    {
+      "alignment_index": 1157,
+      "event_type": "substitution",
+      "position_1973_envelope": 1157,
+      "position_2020": 1157,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 1164,
+      "event_type": "substitution",
+      "position_1973_envelope": 1164,
+      "position_2020": 1164,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 1179,
+      "event_type": "substitution",
+      "position_1973_envelope": 1179,
+      "position_2020": 1179,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 1206,
+      "event_type": "substitution",
+      "position_1973_envelope": 1206,
+      "position_2020": 1206,
+      "base_1973": "T",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 1215,
+      "event_type": "substitution",
+      "position_1973_envelope": 1215,
+      "position_2020": 1215,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 1269,
+      "event_type": "substitution",
+      "position_1973_envelope": 1269,
+      "position_2020": 1269,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 1290,
+      "event_type": "substitution",
+      "position_1973_envelope": 1290,
+      "position_2020": 1290,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 1293,
+      "event_type": "substitution",
+      "position_1973_envelope": 1293,
+      "position_2020": 1293,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 1302,
+      "event_type": "substitution",
+      "position_1973_envelope": 1302,
+      "position_2020": 1302,
+      "base_1973": "G",
+      "base_2020": "C"
+    },
+    {
+      "alignment_index": 1329,
+      "event_type": "substitution",
+      "position_1973_envelope": 1329,
+      "position_2020": 1329,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 1335,
+      "event_type": "substitution",
+      "position_1973_envelope": 1335,
+      "position_2020": 1335,
+      "base_1973": "A",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 1344,
+      "event_type": "substitution",
+      "position_1973_envelope": 1344,
+      "position_2020": 1344,
+      "base_1973": "A",
+      "base_2020": "G"
+    },
+    {
+      "alignment_index": 1386,
+      "event_type": "substitution",
+      "position_1973_envelope": 1386,
+      "position_2020": 1386,
+      "base_1973": "C",
+      "base_2020": "T"
+    },
+    {
+      "alignment_index": 1449,
+      "event_type": "substitution",
+      "position_1973_envelope": 1449,
+      "position_2020": 1449,
+      "base_1973": "T",
+      "base_2020": "C"
+    }
+  ],
+  "full_alignment": {
+    "seq1_1973": "ATGAGATGTGTGGGAGTAGGAAACAGAGATTTTGTGGAAGGCCTATCAGGAGCTACGTGGGTTGACGTGGTGCTCGAGCACGGTGGGTGTGTGACTACCATGGCTAAGAACAAGCCCACGCTGGATATAGAGCTCCAGAAGACCGAGGCCACCCAACTGGCGACCCTAAGGAAACTATGTATTGAGGGAAAAATTACCAACGTAACAACCGACTCAAGGTGCCCCACCCAAGGGGAAGCGATTTTACCTGAGGAGCAGGACCAGAACTACGTGTGTAAGCACACATACGTGGACAGAGGCTGGGGAAACGGTTGTGGTTTGTTTGGCAAGGGAAGCTTGGTAACATGCGCGAAATTTCAATGTTTGGAATCAATAGAGGGAAAAGTGGTGCAGCATGAGAACCTCAAATACACCGTCATCATCACAGTGCACACAGGAGATCAACACCAGGTGGGAAATGAAACGCAGGGAGTCACGGCTGAGATAACACCCCAGGCATCAACCGTTGAAGCCATCTTACCTGAATATGGAACCCTTGGGCTAGAATGCTCACCACGGACAGGTTTAGATTTCAATGAAATGATTTTGTTGACAATGAAGAACAAAGCATGGATGGTACATAGACAATGGTTTTTTGACCTACCTCTACCATGGACATCAGGAGCTACAACAGAAACACCAACCTGGAATAAGAAAGAGCTTCTTGTGACATTCAAAAACGCACATGCAAAAAAGCAAGAAGTAGTAGTCCTTGGATCGCAAGAGGGAGCAATGCACACAGCACTGACAGGAGCTACAGAGATCCAAACCTCAGGAGGCACAAGTATTTTTGCGGGGCACTTAAAATGTAGACTCAAGATGGACAAATTGGAACTCAAGGGGATGAGCTATGCAATGTGCTTGAATGCCTTCGTGTTGAAGAAAGAAGTCTCCGAAACGCAACATGGGACAATACTCATTAAGGTTGAGTACAAAGGGGAAGATGCACCTTGCAAGATTCCTTTCTCCACGGAGGATGGACAAGGGAAAGCCCACAATGGCAGACTGATCACAGCTAACCCAGTGGTGACCAAGAAGGAGGAGCCTGTCAATATTGAGGCAGAACCTCCTTTTGGGGAAAGTAATATAGTAATTGGAATTGGAGACAAAGCCTTGAAAATCAACTGGTACAAGAAGGGAAGCTCGATTGGGAAGATGTTCGAGGCTACTGCCAGAGGTGCAAGGCGCATGGCCATCTTGGGAGACACAGCCTGGGACTTTGGATCAGTAGGTGGTGTTTTAAATTCATTAGGAAAAATGGTGCACCAAATATTTGGAAGTGCTTACACAGCCCTATTTAGTGGAGTCTCCTGGATAATGAAAATTGGAATAGGTGTCCTTTTAACCTGGATAGGGTTGAATTCAAAAAACACTTCTATGTCATTTTCATGCATTGTGATAGGAATCATTACACTCTATCTGGGAGCCGTGGTGCAAGCT",
+    "bar": "||||||||||||||||||||||||||||||||*||||||||*||||||||||||||*||||||||||||||||||||*||||||||||||||||||||||||||*||||||||||||||||||||*|||||||||||||||||||||||||||||||||||*|||||||||||||||||*||||||||||||||*|||||*||*|||||||||||||||||||||||||||||||||||||||*||||||||||||||||*|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||**||||||*||||||||||||||||||*||*||||||||||||||||||||||||||||||||||||||*||||||||*|||||||||||||||||||||||*|||||||||||||||||*|||||||||||||||||||||||*||*||||||||||||||||||||||||||||||||||||||||||||||||||||||||*|||||||||||||||||*||||||||||||||||||||||||||||||||*||*|||||||||||||||||||||||||||||||||||||||||*||||||||||||||||||||||||||*|||||||||||||||||||||||||||||||||||*||||||||*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*||||||||*|||||*|||||*||||||||||||||||||||||||||||||||||||||||||||||||||||**||||||||*||||||||||||||||||||*|||||*||||||||||||||||||||||||||*|||||||||||||||||*|||||||||||||||||*|||||||||||||||||||||||||||||*|||||||||||||||||||||||||||||||||||||||||||||||*||||*|||||||||||||||||||||*|||||||||||||||||*|||*|||||||||||||||||||||||||||*||||||*||||||||||||||*||||||||||||||||||||||||||*||||||||*|||||||||||||||||||||||||||||||||||||||||||||||||||||*||||||||||||||||||||*||*||||||||*||||||||||||||||||||||||||*|||||*||||||||*|||||||||||||||||||||||||||||||||||||||||*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*||||||||||||||||||||||||||||||",
+    "seq2_2020": "ATGAGATGTGTGGGAGTAGGAAACAGAGATTTCGTGGAAGGTCTATCAGGAGCTACATGGGTTGACGTGGTGCTCGAACACGGTGGGTGTGTGACTACCATGGCCAAGAACAAGCCCACGCTGGACATAGAGCTCCAGAAGACCGAGGCCACCCAACTGGCAACCCTAAGGAAACTATGCATTGAGGGAAAAATCACCAATGTGACAACCGACTCAAGGTGCCCCACCCAAGGGGAAGCGATTCTACCTGAGGAGCAGGATCAGAACTACGTGTGTAAGCACACATACGTGGACAGAGGCTGGGGAAACGGTTGTGGTTTGTTTGGCAAGGGAAGCTTGGTAACATGCGCGAAATTTCAATGCCTGGAATTAATAGAGGGAAAAGTGGTTCAACATGAGAACCTCAAATACACCGTCATCATCACAGTGCATACAGGAGACCAACACCAGGTGGGAAATGAAACACAGGGAGTCACGGCTGAAATAACACCCCAGGCATCAACCGTCGAGGCCATCTTACCTGAATATGGAACCCTTGGGCTAGAATGCTCACCACGGACAGGTTTGGATTTCAATGAAATGATCTTGTTGACAATGAAGAACAAAGCATGGATGGTGCACAGACAATGGTTTTTTGACCTACCTCTACCATGGACATCAGGGGCTACAACAGAAACACCAACCTGGAACAAGAAAGAGCTTCTTGTGACATTCAAAAACGCACACGCAAAAAAACAAGAAGTAGTAGTCCTTGGATCGCAAGAGGGAGCAATGCACACAGCACTGACAGGAGCTACAGAGATCCAAACCTCAGGAGGCACAAGTATCTTTGCGGGACACTTGAAATGCAGACTCAAGATGGACAAATTGGAACTCAAGGGGATGAGCTATGCAATGTGCTCAAATGCCTTTGTGTTGAAGAAAGAAGTCTCTGAAACACAACATGGGACAATACTCATTAAGGTCGAGTACAAAGGGGAAGACGCACCTTGCAAGATTCCATTCTCCACGGAGGATGGACAAGGGAAAGCTCACAATGGCAGACTGATCACAGCTAACCCAGTGGTGACCAAGAAGGAAGAGCTTGTCAATATTGAGGCAGAACCCCCTTTTGGGGAAAGTAACATAATAATTGGAATTGGAGACAAAGCCTTGAGAATCAATTGGTACAAGAAGGGGAGCTCGATTGGGAAGATGTTCGAGGCCACTGCCAGGGGTGCAAGGCGCATGGCCATCTTGGGAGACACAGCCTGGGACTTTGGATCAGTGGGTGGTGTTTTAAATTCATTGGGGAAAATGGTCCACCAAATATTTGGAAGTGCTTACACGGCCCTTTTTAGTGGGGTCTCCTGGATAATGAAAATTGGAATAGGTGTCCTTTTAACTTGGATAGGGTTGAATTCAAAAAACACTTCTATGTCATTTTCATGCATTGTGATAGGAATCATCACACTCTATCTGGGAGCCGTGGTGCAAGCT"
+  }
+}

@@ -29,14 +29,14 @@ class NeedlemanWunschDP:
         header = "      "
         for j in range(min(max_cols, self.n)):
             if j == 0:
-                header += "  ∅"
+                header += "  -"
             else:
                 header += f"  {self.seq2[j-1]}"
         print(header)
         
         for i in range(min(max_rows, self.m)):
             if i == 0:
-                row_label = "  ∅"
+                row_label = "  -"
             else:
                 row_label = f"  {self.seq1[i-1]}"
             
@@ -98,10 +98,10 @@ class NeedlemanWunschDP:
 
     
     def fill_matrix(self):
-        """Isi dp_matrix menggunakan aturan Needleman-Wunsch dan bangun traceback_matrix."""
+        # Isi matrix pakai aturan Needleman-Wunsch.
         self.traceback_matrix = [['' for _ in range(self.n)] for _ in range(self.m)]
 
-        # Arah pada baris/kolom pertama sudah ditentukan oleh inisialisasi
+        # Arah awal buat baris/kolom pertama.
         for j in range(1, self.n):
             self.traceback_matrix[0][j] = 'L'
         for i in range(1, self.m):
@@ -118,7 +118,7 @@ class NeedlemanWunschDP:
                 best = max(diagonal, up, left)
                 self.dp_matrix[i][j] = best
 
-                # Prioritas: diagonal > atas > kiri (tie-breaking standar NW)
+                # Kalau skornya seri, ambil diagonal dulu.
                 if best == diagonal:
                     self.traceback_matrix[i][j] = 'D'
                 elif best == up:
@@ -130,7 +130,7 @@ class NeedlemanWunschDP:
 
     
     def traceback(self):
-        """Runut balik dari sel pojok kanan-bawah untuk menghasilkan alignment."""
+        # Balik dari kanan bawah buat nyusun alignment.
         if self.traceback_matrix is None:
             raise ValueError("Traceback matrix kosong. Jalankan fill_matrix() terlebih dahulu.")
 
@@ -167,7 +167,7 @@ class NeedlemanWunschDP:
         return aligned_seq1, aligned_seq2, alignment_bar
 
     def get_alignment_stats(self, aligned_seq1, aligned_seq2, alignment_bar):
-        """Hitung statistik alignment: match, mismatch, gap, identity."""
+        # Hitung angka-angka yang dipakai di laporan.
         matches    = alignment_bar.count('|')
         mismatches = alignment_bar.count('*')
         gaps       = alignment_bar.count(' ')
@@ -184,7 +184,7 @@ class NeedlemanWunschDP:
         }
 
     def display_alignment(self, aligned_seq1, aligned_seq2, alignment_bar, line_width=60):
-        """Tampilkan hasil alignment dalam format blok."""
+        # Biar alignment gampang dibaca di terminal.
         print(f"\nHasil Alignment (total {len(alignment_bar)} karakter):\n")
         for start in range(0, len(alignment_bar), line_width):
             end = start + line_width
@@ -194,7 +194,7 @@ class NeedlemanWunschDP:
             print()
 
     def export_alignment_to_json(self, filepath, aligned_seq1, aligned_seq2, alignment_bar):
-        """Ekspor hasil alignment ke file JSON."""
+        # Simpan hasil alignment biar bisa dicek lagi tanpa run ulang.
         import os
         import json
         from datetime import datetime
