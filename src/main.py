@@ -15,7 +15,8 @@ SEQUENCE_2020_PATH = os.path.join(DATASET_DIR, 'sequence_2020.fasta')
 
 ENVELOPE_START = 499
 ENVELOPE_END = 1977
-OUTPUT_JSON = os.path.join(OUTPUT_DIR, 'stage_1_initialization.json')
+OUTPUT_JSON            = os.path.join(OUTPUT_DIR, 'stage_1_initialization.json')
+OUTPUT_ALIGNMENT_JSON  = os.path.join(OUTPUT_DIR, 'stage_2_alignment.json')
 
 
 def main():
@@ -66,7 +67,38 @@ def main():
     nw.display_dp_matrix(max_rows=12, max_cols=12)
     
     nw.export_to_json(OUTPUT_JSON)
-    
+    print("\n[TAHAP 5] Pengisian Matriks DP")
+    print("-" * 80)
+    print("Mengisi matriks...")
+
+    import time
+    t0 = time.time()
+    final_score = nw.fill_matrix()
+    elapsed = time.time() - t0
+
+    print(f"Selesai dalam {elapsed:.2f} detik.")
+    print(f"Skor alignment akhir: {final_score}")
+
+    nw.display_dp_matrix(max_rows=12, max_cols=12)
+
+    print("\n[TAHAP 6] Traceback")
+    print("-" * 80)
+
+    aligned_seq1, aligned_seq2, alignment_bar = nw.traceback()
+
+    stats = nw.get_alignment_stats(aligned_seq1, aligned_seq2, alignment_bar)
+    print(f"\nStatistik Alignment:")
+    print(f"  Panjang alignment : {stats['alignment_length']}")
+    print(f"  Match             : {stats['matches']}")
+    print(f"  Mismatch          : {stats['mismatches']}")
+    print(f"  Gap               : {stats['gaps']}")
+    print(f"  Identity          : {stats['identity_pct']}%")
+    print(f"  Skor akhir        : {stats['alignment_score']}")
+
+    nw.display_alignment(aligned_seq1, aligned_seq2, alignment_bar)
+
+    nw.export_alignment_to_json(OUTPUT_ALIGNMENT_JSON, aligned_seq1, aligned_seq2, alignment_bar)
+
     return nw, envelope_1973, envelope_2020
 
 

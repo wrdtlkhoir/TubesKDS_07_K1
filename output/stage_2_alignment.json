@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "timestamp": "2026-05-21T20:04:41.122684",
+    "stage": "STAGE_2_ALIGNMENT",
+    "seq1_length": 1479,
+    "seq2_length": 1479,
+    "matrix_dimension": "1480x1480"
+  },
+  "parameters": {
+    "match_score": 2,
+    "mismatch_score": -1,
+    "gap_penalty": -1
+  },
+  "alignment_statistics": {
+    "alignment_length": 1479,
+    "matches": 1415,
+    "mismatches": 64,
+    "gaps": 0,
+    "identity_pct": 95.6728,
+    "alignment_score": 2766
+  },
+  "alignment_preview": {
+    "seq1": "ATGAGATGTGTGGGAGTAGGAAACAGAGATTTTGTGGAAGGCCTATCAGGAGCTACGTGGGTTGACGTGGTGCTCGAGCACGGTGGGTGTGTGACTACCATGGCTAAGAACAAGCCCACGCTGGATATAGAGCTCCAGAAGACCGAGGCCACCCAACTGGCGACCCTAAGGAAACTATGTATTGAGGGAAAAATTACCAA...",
+    "bar": "||||||||||||||||||||||||||||||||*||||||||*||||||||||||||*||||||||||||||||||||*||||||||||||||||||||||||||*||||||||||||||||||||*|||||||||||||||||||||||||||||||||||*|||||||||||||||||*||||||||||||||*|||||...",
+    "seq2": "ATGAGATGTGTGGGAGTAGGAAACAGAGATTTCGTGGAAGGTCTATCAGGAGCTACATGGGTTGACGTGGTGCTCGAACACGGTGGGTGTGTGACTACCATGGCCAAGAACAAGCCCACGCTGGACATAGAGCTCCAGAAGACCGAGGCCACCCAACTGGCAACCCTAAGGAAACTATGCATTGAGGGAAAAATCACCAA..."
+  }
+}
