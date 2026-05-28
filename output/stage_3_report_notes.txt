@@ -1,8 +1,10 @@
 # Ringkasan Hasil Alignment Needleman-Wunsch
 
 # Dataset
-Referensi 1973: gen Envelope Dengue hasil slicing posisi 499-1977 (1479 bp)
-Varian 2020: region Envelope protein E Dengue (1479 bp)
+Referensi 1973: L11425.1 Dengue virus type 3 membrane protein (prM/M)/envelope glycoprotein (E) polyprotein mRNA, partial cds
+Region acuan diambil dari posisi 499-1977 (1479 bp)
+Varian 2020: PQ671078.1 Dengue virus type 3 isolate TMK-PT-001 polyprotein, envelope protein E region, (POLY) gene, partial cds
+Panjang region Envelope protein E (1479 bp)
 
 # Parameter Scoring
 Match = +2

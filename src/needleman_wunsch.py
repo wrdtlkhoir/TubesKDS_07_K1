@@ -1,31 +1,41 @@
 class NeedlemanWunschDP:
-    def __init__(self, seq1, seq2, match_score=2, mismatch_score=-1, gap_penalty=-1):
-        self.seq1 = seq1.upper()
-        self.seq2 = seq2.upper()
-        self.match_score = match_score
-        self.mismatch_score = mismatch_score
-        self.gap_penalty = gap_penalty
-        
-        self.m = len(seq1) + 1
-        self.n = len(seq2) + 1
-        
-        self.dp_matrix = self._initialize_dp_matrix()
-        self.traceback_matrix = None
-    
-    def _initialize_dp_matrix(self):
-        dp_matrix = [[0 for _ in range(self.n)] for _ in range(self.m)]
-        
+    # Implementasi global alignment DP.
+    def __init__(
+        self,
+        seq1: str,
+        seq2: str,
+        match_score: int = 2,
+        mismatch_score: int = -1,
+        gap_penalty: int = -1,
+    ) -> None:
+        self.seq1: str = seq1.upper()
+        self.seq2: str = seq2.upper()
+        self.match_score: int = match_score
+        self.mismatch_score: int = mismatch_score
+        self.gap_penalty: int = gap_penalty
+
+        self.m: int = len(seq1) + 1
+        self.n: int = len(seq2) + 1
+
+        self.dp_matrix: list[list[int]] = self._initialize_dp_matrix()
+        self.traceback_matrix: list[list[str]] | None = None
+
+    def _initialize_dp_matrix(self) -> list[list[int]]:
+        # Isi baris kolom awal.
+        dp_matrix: list[list[int]] = [[0 for _ in range(self.n)] for _ in range(self.m)]
+
         for j in range(self.n):
             dp_matrix[0][j] = j * self.gap_penalty
-        
+
         for i in range(self.m):
             dp_matrix[i][0] = i * self.gap_penalty
-        
+
         return dp_matrix
-    
-    def display_dp_matrix(self, max_rows=12, max_cols=12):
+
+    def display_dp_matrix(self, max_rows: int = 12, max_cols: int = 12) -> None:
+        # Tampilkan potongan matriks DP.
         print(f"\nDP Matrix ({min(max_rows, self.m)} x {min(max_cols, self.n)} dari {self.m} x {self.n}):\n")
-        
+
         header = "      "
         for j in range(min(max_cols, self.n)):
             if j == 0:
@@ -33,26 +43,27 @@ class NeedlemanWunschDP:
             else:
                 header += f"  {self.seq2[j-1]}"
         print(header)
-        
+
         for i in range(min(max_rows, self.m)):
             if i == 0:
                 row_label = "  -"
             else:
                 row_label = f"  {self.seq1[i-1]}"
-            
+
             row_str = f"{row_label:>4}"
             for j in range(min(max_cols, self.n)):
                 row_str += f"{self.dp_matrix[i][j]:>4}"
-            
+
             print(row_str)
-        
+
         if max_rows < self.m or max_cols < self.n:
             print(f"\n  [Sisa baris/kolom tidak ditampilkan]")
-    
-    def get_matrix_stats(self):
-        flat_matrix = [val for row in self.dp_matrix for val in row]
-        
-        stats = {
+
+    def get_matrix_stats(self) -> dict[str, int]:
+        # Statistik dimensi matriks.
+        flat_matrix: list[int] = [val for row in self.dp_matrix for val in row]
+
+        stats: dict[str, int] = {
             'rows': self.m,
             'cols': self.n,
             'total_cells': self.m * self.n,
@@ -61,10 +72,15 @@ class NeedlemanWunschDP:
             'seq1_length': len(self.seq1),
             'seq2_length': len(self.seq2),
         }
-        
+
         return stats
-    
-    def export_to_json(self, filepath):
+
+    def export_to_json(
+        self,
+        filepath: str,
+        provenance: dict[str, dict[str, str]] | None = None,
+    ) -> None:
+        # Ekspor stage 1 JSON.
         import os
         import json
         from datetime import datetime
@@ -78,6 +94,7 @@ class NeedlemanWunschDP:
                 'seq1_length': len(self.seq1),
                 'seq2_length': len(self.seq2),
                 'matrix_dimension': f"{self.m}x{self.n}",
+                'dataset_provenance': provenance or {},
             },
             'parameters': {
                 'match_score': self.match_score,
@@ -96,12 +113,11 @@ class NeedlemanWunschDP:
 
         print(f"Export: {filepath}")
 
-    
-    def fill_matrix(self):
-        # Isi matrix pakai aturan Needleman-Wunsch.
+    def fill_matrix(self) -> int:
+        # Isi matriks DP.
         self.traceback_matrix = [['' for _ in range(self.n)] for _ in range(self.m)]
 
-        # Arah awal buat baris/kolom pertama.
+        # Arah awal baris kolom.
         for j in range(1, self.n):
             self.traceback_matrix[0][j] = 'L'
         for i in range(1, self.m):
@@ -118,7 +134,7 @@ class NeedlemanWunschDP:
                 best = max(diagonal, up, left)
                 self.dp_matrix[i][j] = best
 
-                # Kalau skornya seri, ambil diagonal dulu.
+                # Tie-breaker prioritas diagonal.
                 if best == diagonal:
                     self.traceback_matrix[i][j] = 'D'
                 elif best == up:
@@ -128,15 +144,14 @@ class NeedlemanWunschDP:
 
         return self.dp_matrix[self.m - 1][self.n - 1]
 
-    
-    def traceback(self):
-        # Balik dari kanan bawah buat nyusun alignment.
+    def traceback(self) -> tuple[str, str, str]:
+        # Traceback dari kanan bawah.
         if self.traceback_matrix is None:
             raise ValueError("Traceback matrix kosong. Jalankan fill_matrix() terlebih dahulu.")
 
-        aligned_seq1 = []
-        aligned_seq2 = []
-        alignment_bar = []
+        aligned_seq1: list[str] = []
+        aligned_seq2: list[str] = []
+        alignment_bar: list[str] = []
 
         i, j = self.m - 1, self.n - 1
 
@@ -154,20 +169,25 @@ class NeedlemanWunschDP:
                 aligned_seq2.append('-')
                 alignment_bar.append(' ')
                 i -= 1
-            else:  # 'L'
+            else:
                 aligned_seq1.append('-')
                 aligned_seq2.append(self.seq2[j - 1])
                 alignment_bar.append(' ')
                 j -= 1
 
-        aligned_seq1  = ''.join(reversed(aligned_seq1))
-        aligned_seq2  = ''.join(reversed(aligned_seq2))
-        alignment_bar = ''.join(reversed(alignment_bar))
+        seq1_str = ''.join(reversed(aligned_seq1))
+        seq2_str = ''.join(reversed(aligned_seq2))
+        bar_str = ''.join(reversed(alignment_bar))
 
-        return aligned_seq1, aligned_seq2, alignment_bar
+        return seq1_str, seq2_str, bar_str
 
-    def get_alignment_stats(self, aligned_seq1, aligned_seq2, alignment_bar):
-        # Hitung angka-angka yang dipakai di laporan.
+    def get_alignment_stats(
+        self,
+        aligned_seq1: str,
+        aligned_seq2: str,
+        alignment_bar: str,
+    ) -> dict[str, int | float]:
+        # Hitung statistik alignment.
         matches    = alignment_bar.count('|')
         mismatches = alignment_bar.count('*')
         gaps       = alignment_bar.count(' ')
@@ -183,8 +203,14 @@ class NeedlemanWunschDP:
             'alignment_score': self.dp_matrix[self.m - 1][self.n - 1],
         }
 
-    def display_alignment(self, aligned_seq1, aligned_seq2, alignment_bar, line_width=60):
-        # Biar alignment gampang dibaca di terminal.
+    def display_alignment(
+        self,
+        aligned_seq1: str,
+        aligned_seq2: str,
+        alignment_bar: str,
+        line_width: int = 60,
+    ) -> None:
+        # Cetak alignment ke terminal.
         print(f"\nHasil Alignment (total {len(alignment_bar)} karakter):\n")
         for start in range(0, len(alignment_bar), line_width):
             end = start + line_width
@@ -193,8 +219,14 @@ class NeedlemanWunschDP:
             print(f"  Seq2 : {aligned_seq2[start:end]}")
             print()
 
-    def export_alignment_to_json(self, filepath, aligned_seq1, aligned_seq2, alignment_bar):
-        # Simpan hasil alignment biar bisa dicek lagi tanpa run ulang.
+    def export_alignment_to_json(
+        self,
+        filepath: str,
+        aligned_seq1: str,
+        aligned_seq2: str,
+        alignment_bar: str,
+    ) -> None:
+        # Ekspor alignment ke JSON.
         import os
         import json
         from datetime import datetime
@@ -228,4 +260,3 @@ class NeedlemanWunschDP:
             json.dump(data, f, indent=2)
 
         print(f"Export: {filepath}")
-

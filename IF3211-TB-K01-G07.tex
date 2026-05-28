@@ -1,0 +1,352 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[bahasa]{babel}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,calc}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black
+}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    framesep=2pt,
+    framerule=0.4pt,
+    xleftmargin=2pt,
+    xrightmargin=2pt,
+    aboveskip=4pt,
+    belowskip=4pt
+}
+
+\begin{document}
+
+\title{Deteksi Mutasi Virus Endemik: Implementasi Algoritma Needleman-Wunsch pada Analisis Sekuens DNA Varian Dengue di Indonesia}
+
+\author{
+\IEEEauthorblockN{Wardatul Khoiroh\textsuperscript{1}, Indah Novita Tangdililing\textsuperscript{2}, Muhammad Timur Kanigara\textsuperscript{3}, Bryan P. Hutagalung\textsuperscript{4}}
+\IEEEauthorblockA{Program Studi Teknik Informatika\\
+Sekolah Teknik Elektro dan Informatika, Institut Teknologi Bandung\\
+Jl. Ganesha 10, Bandung 40132, Indonesia\\
+\textsuperscript{1}13523001, \textsuperscript{2}13523047, \textsuperscript{3}13523055, \textsuperscript{4}18222130}
+}
+
+\maketitle
+
+\begin{abstract}
+Demam berdarah dengue masih menjadi penyakit endemik di Indonesia. Salah satu cara memantau dinamika virus adalah membandingkan sekuens gen Envelope lintas dekade untuk melihat akumulasi mutasi. Penelitian ini mengimplementasikan algoritma Needleman-Wunsch berbasis Dynamic Programming pada sekuens DNA virus Dengue type 3 dari NCBI accession L11425.1 (tahun 1973) dan PQ671078.1 (tahun 2020). Region acuan diambil dari posisi 499-1977 pada sekuens 1973 agar memiliki panjang yang sama dengan region Envelope protein E sekuens 2020, yaitu 1479 bp. Dengan skema scoring match $+2$, mismatch $-1$, dan gap $-1$, hasil alignment mencatat skor akhir 2766, identity 95,67\%, 1415 match, 64 mismatch, dan 0 gap. Distribusi substitusi didominasi transisi (60 dari 64) dengan rasio Ts/Tv sebesar 15. Temuan ini menunjukkan region Envelope masih konservatif selama 47 tahun, sehingga akumulasi mutasi pada DENV-3 lebih banyak terjadi melalui substitusi nukleotida tipe transisi tanpa pergeseran panjang sekuens.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Needleman-Wunsch, sekuens DNA, virus Dengue, dynamic programming, global alignment, bioinformatika.
+\end{IEEEkeywords}
+
+\section{Pendahuluan}
+
+\subsection{Konsep Biologi}
+Virus Dengue adalah anggota genus \textit{Flavivirus} dengan empat serotipe yaitu DENV-1, DENV-2, DENV-3, dan DENV-4. Infeksi virus ini menyebabkan demam berdarah dengue (DBD) yang masih menjadi salah satu penyakit endemik paling sering dilaporkan di Indonesia \cite{kemenkes2023}. Genom virus Dengue berupa RNA untai tunggal positif sepanjang sekitar 11 kb yang menyandi satu polyprotein besar. Polyprotein tersebut dipotong menjadi sepuluh protein, salah satunya adalah protein Envelope (E) yang berada pada permukaan virus dan berperan sebagai pengikat reseptor sel inang. Karena protein E menjadi target utama antibodi netralisasi dan vaksin, perubahan urutan nukleotida pada gen E menjadi indikator penting untuk memahami dinamika antigenisitas virus \cite{guzman2016}.
+
+\subsection{Metode Komputasi}
+Membandingkan dua sekuens biologis sepanjang ribuan basa membutuhkan pendekatan yang terstruktur. Algoritma Needleman-Wunsch \cite{needleman1970} adalah algoritma global alignment klasik berbasis Dynamic Programming yang menjamin solusi optimal pada skema scoring tertentu. Algoritma ini memaksa seluruh basa dari kedua sekuens berpartisipasi dalam alignment, sehingga cocok untuk membandingkan dua region homolog dengan panjang serupa, misalnya region Envelope dari dua tahun yang berbeda.
+
+\subsection{Tinjauan Pustaka Karya}
+Pekerjaan terkait dalam ranah analisis sekuens umumnya memakai algoritma global atau local alignment. Smith-Waterman \cite{smith1981} dipakai untuk menemukan region kemiripan terbaik di dalam dua sekuens, sedangkan Needleman-Wunsch tetap menjadi pilihan utama saat dua sekuens diketahui homolog dan panjangnya seimbang. Buku Durbin dkk. \cite{durbin1998} memaparkan kerangka teoritis lengkap untuk pairwise alignment, termasuk model scoring linear dan affine gap. Untuk virus Dengue, studi mutasi gen E lazim memakai alat seperti BLAST, MAFFT, atau MEGA, tetapi pendekatan murni Needleman-Wunsch yang ditulis ulang dari nol tetap relevan sebagai bahan praktikum karena setiap langkah algoritmanya dapat ditelusuri secara eksplisit.
+
+\subsection{Rumusan Pertanyaan Penelitian}
+Penelitian ini menjawab tiga pertanyaan utama:
+\begin{enumerate}
+\item Berapa tingkat kemiripan (identity) region gen Envelope virus Dengue type 3 antara isolat tahun 1973 dan isolat tahun 2020?
+\item Berapa banyak posisi mutasi yang ditemukan, dan bagaimana komposisi event substitusi, insersi, serta delesi pada region tersebut?
+\item Bagaimana pola substitusi nukleotida yang muncul jika dikelompokkan menjadi transisi dan transversi?
+\end{enumerate}
+
+\subsection{Tujuan dan Kontribusi}
+Tujuan utama tugas ini adalah membuktikan bahwa algoritma Needleman-Wunsch dapat diimplementasikan secara mandiri dengan Python murni dan diterapkan pada data nyata dari NCBI untuk menjawab pertanyaan biologis sederhana. Kontribusi yang diberikan ada tiga: (1) implementasi Needleman-Wunsch tanpa pustaka eksternal, (2) pipeline tujuh tahap yang menyimpan artefak setiap tahap ke JSON dan CSV sehingga laporan dapat mengutip angka secara reproducible, dan (3) ringkasan analisis mutasi yang sudah memetakan tipe substitusi serta provenance dataset NCBI.
+
+\section{Metode}
+
+\subsection{Flowchart}
+
+Gambar~\ref{fig:flowchart} menggambarkan pipeline tujuh tahap yang dipakai. Mulai dari pembacaan dua file FASTA hingga ekspor analisis mutasi ke file JSON, CSV, dan TXT.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  node distance=4.5mm and 4mm,
+  font=\scriptsize,
+  startstop/.style={rectangle, rounded corners, draw, fill=gray!10, minimum width=2.2cm, minimum height=5mm, align=center},
+  process/.style={rectangle, draw, fill=white, minimum width=2.6cm, minimum height=5mm, align=center},
+  io/.style={trapezium, trapezium left angle=70, trapezium right angle=110, draw, fill=gray!5, minimum width=2.6cm, minimum height=5mm, align=center},
+  arrow/.style={-{Latex[length=1.5mm]}}
+]
+\node[startstop] (start) {Mulai};
+\node[io, below=of start] (load) {Baca dua file FASTA};
+\node[process, below=of load] (slice) {Slice envelope 1973 (499-1977)};
+\node[process, below=of slice] (init) {Inisialisasi matriks DP};
+\node[process, below=of init] (fill) {Isi matriks (rekurens NW)};
+\node[process, below=of fill] (trace) {Traceback alignment};
+\node[process, below=of trace] (mut) {Klasifikasi event mutasi};
+\node[io, below=of mut] (out) {Ekspor JSON, CSV, TXT};
+\node[startstop, below=of out] (end) {Selesai};
+
+\draw[arrow] (start) -- (load);
+\draw[arrow] (load)  -- (slice);
+\draw[arrow] (slice) -- (init);
+\draw[arrow] (init)  -- (fill);
+\draw[arrow] (fill)  -- (trace);
+\draw[arrow] (trace) -- (mut);
+\draw[arrow] (mut)   -- (out);
+\draw[arrow] (out)   -- (end);
+\end{tikzpicture}
+\caption{Flowchart pipeline alignment Needleman-Wunsch.}
+\label{fig:flowchart}
+\end{figure}
+
+\subsection{Penjelasan Metode Komputasi}
+
+\subsubsection{Dataset NCBI}
+Dua sekuens diunduh dari NCBI GenBank dalam format FASTA. Ringkasan dataset ada di Tabel~\ref{tab:dataset}. Sekuens 1973 (L11425.1) berisi region prM/M sampai E sepanjang 1977 bp sehingga perlu di-slice pada posisi 499-1977 untuk mengambil region Envelope sepanjang 1479 bp. Sekuens 2020 (PQ671078.1) sudah berupa region Envelope protein E dengan panjang yang sama 1479 bp, sehingga dipakai utuh. Pasangan ini dipilih karena keduanya tergolong DENV-3, sehingga perbandingannya bersifat intra-serotipe lintas dekade dan relevan untuk analisis evolusi region E yang penting bagi virulensi dan transmisi.
+
+\begin{table}[h]
+\centering
+\caption{Provenance Dataset NCBI}
+\label{tab:dataset}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{p{0.18\columnwidth} p{0.18\columnwidth} p{0.46\columnwidth}}
+\toprule
+\textbf{File} & \textbf{Accession} & \textbf{Keterangan} \\
+\midrule
+sequence\_\-1973.fasta & L11425.1 & DENV-3, prM/M dan envelope glycoprotein E polyprotein, partial cds, 1977 bp \\
+sequence\_\-2020.fasta & PQ671078.1 & DENV-3 isolate TMK-PT-001, envelope protein E region, partial cds, 1479 bp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Parameter Scoring Needleman-Wunsch}
+Skema scoring sederhana dipilih supaya hasilnya mudah diverifikasi ulang secara manual. Detailnya ada di Tabel~\ref{tab:scoring}.
+
+\begin{table}[h]
+\centering
+\caption{Parameter scoring}
+\label{tab:scoring}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{p{0.18\columnwidth} c p{0.48\columnwidth}}
+\toprule
+\textbf{Parameter} & \textbf{Nilai} & \textbf{Alasan} \\
+\midrule
+Match    & $+2$ & identitas basa diberi skor positif tinggi \\
+Mismatch & $-1$ & substitusi diizinkan dengan pengurangan ringan (model evolusi) \\
+Gap      & $-1$ & penalti indel setara substitusi \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Rekurens utama Needleman-Wunsch \cite{needleman1970} dituliskan pada Persamaan~\eqref{eq:nw}:
+\begin{equation}
+DP[i][j] = \max
+\begin{cases}
+DP[i-1][j-1] + s(a_i, b_j) \\
+DP[i-1][j] - 1 \\
+DP[i][j-1] - 1
+\end{cases}
+\label{eq:nw}
+\end{equation}
+dengan $s(a_i, b_j) = +2$ jika $a_i = b_j$ dan $-1$ jika berbeda.
+
+\subsubsection{Implementasi Teknis}
+Implementasi memakai Python 3.13 murni dengan kompleksitas waktu dan ruang $O(m \times n)$. Pipeline dipecah menjadi tiga modul: \texttt{utils.py} berisi class \texttt{FASTAReader}, \texttt{needleman\_wunsch.py} berisi class \texttt{NeedlemanWunschDP}, dan \texttt{main.py} mengorkestrasi tujuh tahap.
+
+\textit{Pembacaan dataset FASTA.} File FASTA dibaca penuh, baris pertama yang diawali tanda \texttt{>} dianggap header, dan sisanya digabung menjadi satu string sekuens. Region target 499-1977 pada sekuens 1973 diekstrak dengan \texttt{get\_subsequence} (indeks 1-based) untuk dijadikan input alignment.
+
+\begin{lstlisting}[language=Python]
+class FASTAReader:
+    def read_fasta(self):
+        with open(self.filepath, 'r') as f:
+            lines = f.readlines()
+        self.header = lines[0].strip()
+        self.sequence = ''.join(
+            l.strip() for l in lines[1:] if l.strip()
+        )
+        return self.header, self.sequence
+\end{lstlisting}
+
+\textit{Inisialisasi matriks DP.} Matriks berukuran $(m{+}1) \times (n{+}1)$ dibuat dengan baris dan kolom pertama berisi kelipatan gap penalty. Untuk pasangan sekuens 1479 bp lawan 1479 bp, matriks berdimensi $1480 \times 1480$ dengan baris pertama $[0, -1, -2, \dots, -1479]$ dan kolom pertama bernilai sama.
+
+\begin{lstlisting}[language=Python]
+def _initialize_dp_matrix(self):
+    dp = [[0]*self.n for _ in range(self.m)]
+    for j in range(self.n):
+        dp[0][j] = j * self.gap_penalty
+    for i in range(self.m):
+        dp[i][0] = i * self.gap_penalty
+    return dp
+\end{lstlisting}
+
+\textit{Pengisian matriks dan traceback.} Setiap sel $(i, j)$ diisi nilai maksimum dari tiga kemungkinan path: diagonal (match atau mismatch), atas (gap pada sekuens 2), dan kiri (gap pada sekuens 1). Arah yang dipilih (D, U, atau L) disimpan pada \texttt{traceback\_matrix}. Setelah matriks penuh, traceback dimulai dari sel $(m, n)$ menuju $(0, 0)$ untuk merekonstruksi alignment final.
+
+\textit{Output pipeline.} Hasil disimpan dalam tiga format. JSON terbagi tiga stage: stage 1 berisi inisialisasi (metadata, parameter, statistik matriks, provenance NCBI), stage 2 menyimpan alignment dan skor akhir, dan stage 3 berisi analisis mutasi lengkap. CSV \texttt{stage\_3\_mutation\_positions.csv} memuat daftar setiap posisi mutasi dengan tipe event, posisi pada kedua sekuens, dan nukleotida lama-baru. TXT \texttt{stage\_3\_report\_notes.txt} menyediakan ringkasan human-readable berisi cuplikan alignment dan persentase identity.
+
+\subsection{Tautan Repository}
+Kode sumber lengkap, dataset, dan output tersedia di repositori GitHub:\\
+\url{https://github.com/wrdtlkhoir/TubesKDS_07_K1.git}
+
+\section{Hasil dan Diskusi}
+
+\subsection{Eksekusi Pipeline}
+Pipeline dijalankan dengan perintah \texttt{uv run python main.py} pada direktori \texttt{src/}. Tangkapan layar tahap inisialisasi (tahap 1-4) ditampilkan pada Gambar~\ref{fig:run-init}: pembacaan dua file FASTA, slicing region envelope, dan tampilan 12$\times$12 sel pertama matriks DP yang masih kosong (baris dan kolom pertama berisi kelipatan gap penalty, sel lain bernilai 0).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/run_stage1_init.png}
+\caption{Keluaran terminal tahap 1-4: pembacaan FASTA, slicing envelope, statistik matriks, dan tampilan inisialisasi DP.}
+\label{fig:run-init}
+\end{figure}
+
+Gambar~\ref{fig:run-fill} menunjukkan tahap pengisian matriks DP (tahap 5) yang selesai dalam 0,62 detik dan menghasilkan skor akhir 2766. Pada cuplikan 12$\times$12 sel, nilai sel diagonal terus menaik sebesar $+2$ tiap basa yang cocok, konsisten dengan rekurens Persamaan~\eqref{eq:nw}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.78\columnwidth]{figures/run_stage5_fill.png}
+\caption{Keluaran tahap 5: matriks DP sudah terisi dengan skor akhir 2766.}
+\label{fig:run-fill}
+\end{figure}
+
+Tahap 7 (Gambar~\ref{fig:run-analysis}) menampilkan lokasi file artefak hasil analisis dan total 64 posisi mutasi yang ditemukan.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/run_stage7_analysis.png}
+\caption{Keluaran tahap 7: lokasi file JSON, CSV, dan TXT serta total posisi mutasi.}
+\label{fig:run-analysis}
+\end{figure}
+
+\subsection{Hasil Kuantitatif Alignment}
+Dengan parameter match $+2$, mismatch $-1$, dan gap $-1$, alignment menghasilkan skor akhir 2766. Dari total panjang alignment 1479 bp, ditemukan 1415 basa identik (match) dan 64 basa berbeda (mismatch), sehingga persentase identity mencapai 95,6728\% (dibulatkan 95,67\%). Verifikasi manual menunjukkan $1415 \cdot 2 + 64 \cdot (-1) + 0 \cdot (-1) = 2766$, konsisten dengan skor yang dilaporkan program.
+
+\begin{table}[h]
+\centering
+\caption{Ringkasan hasil alignment sekuens Dengue 1973 dan 2020}
+\label{tab:hasil}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{p{0.55\columnwidth} r}
+\toprule
+\textbf{Parameter / Metrik Hasil} & \textbf{Nilai} \\
+\midrule
+Panjang region 1973 dan 2020 yang dibandingkan & 1479 bp \\
+Panjang alignment                & 1479 bp \\
+Skor akhir (alignment score)     & 2766 \\
+Persentase identity              & 95,67\% \\
+Basa identik (match)             & 1415 \\
+Basa berbeda (mismatch)          & 64 \\
+Gap (insersi atau delesi)        & 0 \\
+Dimensi matriks DP               & $1480 \times 1480$ \\
+Total sel matriks                & 2.190.400 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Cuplikan Alignment}
+Cuplikan 70 basa pertama hasil alignment ditampilkan pada blok berikut. Tanda \texttt{|} berarti basa identik, tanda \texttt{*} berarti substitusi.
+
+\begin{center}
+\footnotesize
+\begin{lstlisting}[frame=none]
+Pos 1-70
+1973 : ATGAGATGTGTGGGAGTAGGAAACAGAGATTT
+       ||||||||||||||||||||||||||||||||
+2020 : ATGAGATGTGTGGGAGTAGGAAACAGAGATTT
+
+1973 : TGTGGAAGGCCTATCAGGAGCTACGTGGGTTGA
+       *||||||||*||||||||||||||*||||||||
+2020 : CGTGGAAGGTCTATCAGGAGCTACATGGGTTGA
+\end{lstlisting}
+\end{center}
+
+\subsection{Distribusi Tipe Substitusi}
+Karena jumlah gap nol, seluruh 64 perbedaan murni berasal dari substitusi nukleotida. Distribusi tipe substitusi ditampilkan pada Tabel~\ref{tab:substitusi}. Substitusi tipe transisi (pertukaran antar purin A-G atau antar pirimidin C-T) berjumlah 60, sedangkan transversi hanya 4. Rasio Ts/Tv sebesar 15 ini lazim dijumpai pada virus RNA, karena kesalahan replikasi polimerase lebih sering menghasilkan transisi.
+
+\begin{table}[h]
+\centering
+\caption{Distribusi 64 substitusi pada region E}
+\label{tab:substitusi}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{l c l}
+\toprule
+\textbf{Tipe} & \textbf{Jumlah} & \textbf{Kategori} \\
+\midrule
+T $\rightarrow$ C & 23 & Transisi \\
+A $\rightarrow$ G & 14 & Transisi \\
+G $\rightarrow$ A & 12 & Transisi \\
+C $\rightarrow$ T & 11 & Transisi \\
+T $\rightarrow$ A & 1  & Transversi \\
+G $\rightarrow$ T & 1  & Transversi \\
+G $\rightarrow$ C & 1  & Transversi \\
+A $\rightarrow$ T & 1  & Transversi \\
+\midrule
+\textbf{Total}    & \textbf{64} & Ts/Tv = 60/4 = 15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Interpretasi Biologis}
+Identity 95,67\% mengonfirmasi bahwa region Envelope DENV-3 tahun 1973 dan 2020 masih sangat mirip walaupun terpisah 47 tahun. Hal paling menonjol adalah jumlah gap bernilai nol. Fakta ini menunjukkan bahwa seluruh 64 perbedaan murni terjadi karena substitusi, bukan insersi maupun delesi. Artinya, panjang gen Envelope tetap stabil selama hampir lima dekade dan kerangka pembacaan (reading frame) protein E kemungkinan besar tidak bergeser. Dominasi substitusi tipe transisi dengan rasio Ts/Tv = 15 mendukung pola umum mutasi yang dilaporkan pada Flavivirus \cite{guzman2016}.
+
+Posisi-posisi mutasi yang tercatat (lihat \texttt{stage\_3\_\-mutation\_\-positions.csv}) tersebar relatif merata sepanjang region E, tidak terkonsentrasi pada blok tertentu. Pola sebaran seperti ini mengindikasikan akumulasi mutasi yang netral pada level nukleotida, bukan akibat tekanan seleksi pada satu lokus spesifik. Walaupun begitu, kesimpulan biologis final memerlukan langkah lanjutan, misalnya translasi sekuens ke asam amino untuk membedakan substitusi sinonim dan non-sinonim, atau pemodelan struktur protein E untuk melihat dampak pada situs antigenik.
+
+\subsection{Kesimpulan Analisis}
+Meskipun 64 substitusi membuktikan adanya dinamika mutasi pada region Envelope virus Dengue, struktur genetik utama tetap sangat konservatif lintas dekade. Artefak keluaran pipeline memastikan setiap angka pada laporan dapat ditelusuri ulang dari file JSON dan CSV. Analisis komputasi lanjutan tetap diperlukan untuk menilai dampak fungsional substitusi tersebut terhadap protein E, terutama bila ingin dikaitkan dengan perubahan virulensi atau profil antigenik.
+
+\section{Kesimpulan}
+
+Penelitian ini mengimplementasikan algoritma Needleman-Wunsch dengan Python 3.13 murni dan menerapkannya pada pasangan sekuens gen Envelope virus Dengue type 3 dari NCBI L11425.1 (1973) dan PQ671078.1 (2020). Hasilnya: skor alignment 2766, identity 95,67\%, dengan 64 substitusi dan 0 gap. Distribusi substitusi didominasi transisi (60 dari 64). Tiga kontribusi nyata pekerjaan ini adalah (1) referensi implementasi Needleman-Wunsch yang transparan dan dapat ditelusuri tahap demi tahap, (2) pipeline tujuh tahap yang menyimpan artefak terstruktur (JSON, CSV, TXT) sehingga setiap angka di laporan dapat diverifikasi ulang, dan (3) penyimpanan provenance dataset NCBI secara otomatis pada metadata output untuk menjaga jejak data.
+
+Saran untuk penelitian lanjutan: (a) menambahkan tahap translasi kodon untuk membedakan substitusi sinonim dan non-sinonim, (b) memperluas perbandingan ke serotipe lain (DENV-1, DENV-2, DENV-4) untuk melihat tingkat divergensi antar serotipe, (c) mengganti skema scoring linear gap dengan affine gap (gap open dan gap extension berbeda) supaya lebih realistis terhadap mutasi biologis, dan (d) menambahkan visualisasi peta posisi mutasi sepanjang region Envelope guna mempermudah inspeksi visual lokasi mutasi.
+
+\begin{thebibliography}{9}
+
+\bibitem{needleman1970}
+S. B. Needleman dan C. D. Wunsch, ``A general method applicable to the search for similarities in the amino acid sequence of two proteins,'' \textit{Journal of Molecular Biology}, vol. 48, no. 3, pp. 443-453, 1970.
+
+\bibitem{smith1981}
+T. F. Smith dan M. S. Waterman, ``Identification of common molecular subsequences,'' \textit{Journal of Molecular Biology}, vol. 147, no. 1, pp. 195-197, 1981.
+
+\bibitem{durbin1998}
+R. Durbin, S. Eddy, A. Krogh, dan G. Mitchison, \textit{Biological Sequence Analysis: Probabilistic Models of Proteins and Nucleic Acids}. Cambridge: Cambridge University Press, 1998.
+
+\bibitem{guzman2016}
+M. G. Guzman dan E. Harris, ``Dengue,'' \textit{The Lancet}, vol. 385, no. 9966, pp. 453-465, 2015.
+
+\bibitem{ncbi1973}
+National Center for Biotechnology Information, ``Dengue virus type 3 envelope glycoprotein (E) polyprotein mRNA, partial cds, GenBank: L11425.1,'' tersedia di: \url{https://www.ncbi.nlm.nih.gov/nuccore/L11425.1}.
+
+\bibitem{ncbi2020}
+National Center for Biotechnology Information, ``Dengue virus type 3 isolate TMK-PT-001 polyprotein, envelope protein E region, partial cds, GenBank: PQ671078.1,'' tersedia di: \url{https://www.ncbi.nlm.nih.gov/nuccore/PQ671078.1}.
+
+\bibitem{kemenkes2023}
+Kementerian Kesehatan Republik Indonesia, ``Situasi Demam Berdarah Dengue (DBD) di Indonesia,'' Direktorat Jenderal Pencegahan dan Pengendalian Penyakit, 2023.
+
+\bibitem{who2024}
+World Health Organization, ``Dengue and severe dengue: Fact sheet,'' 2024, tersedia di: \url{https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue}.
+
+\end{thebibliography}
+
+\end{document}

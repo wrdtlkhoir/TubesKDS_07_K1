@@ -1,0 +1,9 @@
+[project]
+name = "tubes-kds-07-k1"
+version = "0.1.0"
+description = "Deteksi Mutasi Virus Endemik: Implementasi Needleman-Wunsch pada Sekuens DNA Varian Dengue"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pillow>=12.2.0",
+]

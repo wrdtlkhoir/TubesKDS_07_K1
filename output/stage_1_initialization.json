@@ -1,10 +1,20 @@
 {
   "metadata": {
-    "timestamp": "2026-05-21T22:57:39.213515",
+    "timestamp": "2026-05-28T17:30:15.403428",
     "stage": "STAGE_1_INITIALIZATION",
     "seq1_length": 1479,
     "seq2_length": 1479,
-    "matrix_dimension": "1480x1480"
+    "matrix_dimension": "1480x1480",
+    "dataset_provenance": {
+      "reference_1973": {
+        "accession": "L11425.1",
+        "description": "Dengue virus type 3 membrane protein (prM/M)/envelope glycoprotein (E) polyprotein mRNA, partial cds"
+      },
+      "query_2020": {
+        "accession": "PQ671078.1",
+        "description": "Dengue virus type 3 isolate TMK-PT-001 polyprotein, envelope protein E region, (POLY) gene, partial cds"
+      }
+    }
   },
   "parameters": {
     "match_score": 2,

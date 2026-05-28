@@ -1,4 +1,5 @@
 import os
+from typing import Any
 from utils import FASTAReader
 from needleman_wunsch import NeedlemanWunschDP
 
@@ -22,8 +23,12 @@ OUTPUT_MUTATIONS_CSV   = os.path.join(OUTPUT_DIR, 'stage_3_mutation_positions.cs
 OUTPUT_REPORT_TXT      = os.path.join(OUTPUT_DIR, 'stage_3_report_notes.txt')
 
 
-def build_mutation_events(aligned_seq1, aligned_seq2):
-    events = []
+def build_mutation_events(
+    aligned_seq1: str,
+    aligned_seq2: str,
+) -> list[dict[str, Any]]:
+    # Bangun daftar event mutasi.
+    events: list[dict[str, Any]] = []
     pos1 = 0
     pos2 = 0
 
@@ -36,6 +41,8 @@ def build_mutation_events(aligned_seq1, aligned_seq2):
         if base1 == base2:
             continue
 
+        ref_position: int | None
+        query_position: int | None
         if base1 == '-':
             event_type = 'insertion_in_2020'
             ref_position = None
@@ -61,8 +68,15 @@ def build_mutation_events(aligned_seq1, aligned_seq2):
     return events
 
 
-def format_alignment_blocks(aligned_seq1, aligned_seq2, alignment_bar, line_width=70, max_blocks=4):
-    blocks = []
+def format_alignment_blocks(
+    aligned_seq1: str,
+    aligned_seq2: str,
+    alignment_bar: str,
+    line_width: int = 70,
+    max_blocks: int = 4,
+) -> str:
+    # Format cuplikan blok alignment.
+    blocks: list[str] = []
     for start in range(0, len(alignment_bar), line_width):
         if len(blocks) >= max_blocks:
             break
@@ -76,7 +90,24 @@ def format_alignment_blocks(aligned_seq1, aligned_seq2, alignment_bar, line_widt
     return "\n\n".join(blocks)
 
 
-def export_stage_3_analysis(stats, mutation_events, aligned_seq1, aligned_seq2, alignment_bar):
+def parse_fasta_header(header: str) -> dict[str, str]:
+    # Parse accession dan deskripsi.
+    cleaned = header.lstrip('>').strip()
+    parts = cleaned.split(' ', 1)
+    accession = parts[0] if parts else ''
+    description = parts[1] if len(parts) > 1 else ''
+    return {'accession': accession, 'description': description}
+
+
+def export_stage_3_analysis(
+    stats: dict[str, Any],
+    mutation_events: list[dict[str, Any]],
+    aligned_seq1: str,
+    aligned_seq2: str,
+    alignment_bar: str,
+    provenance: dict[str, dict[str, str]],
+) -> None:
+    # Ekspor stage 3 analisis.
     import csv
     import json
     from datetime import datetime
@@ -92,6 +123,7 @@ def export_stage_3_analysis(stats, mutation_events, aligned_seq1, aligned_seq2, 
             'timestamp': datetime.now().isoformat(),
             'stage': 'STAGE_3_ANALYSIS',
             'comparison': 'Dengue 1973 envelope gene vs Dengue 2020 envelope protein E region',
+            'dataset_provenance': provenance,
         },
         'quantitative_summary': {
             **stats,
@@ -123,12 +155,16 @@ def export_stage_3_analysis(stats, mutation_events, aligned_seq1, aligned_seq2, 
         writer.writeheader()
         writer.writerows(mutation_events)
 
+    ref = provenance['reference_1973']
+    qry = provenance['query_2020']
     report_notes = "\n".join([
         "# Ringkasan Hasil Alignment Needleman-Wunsch",
         "",
         "# Dataset",
-        f"Referensi 1973: gen Envelope Dengue hasil slicing posisi 499-1977 ({stats['alignment_length']} bp)",
-        f"Varian 2020: region Envelope protein E Dengue ({stats['alignment_length']} bp)",
+        f"Referensi 1973: {ref['accession']} {ref['description']}",
+        f"Region acuan diambil dari posisi {ENVELOPE_START}-{ENVELOPE_END} ({stats['alignment_length']} bp)",
+        f"Varian 2020: {qry['accession']} {qry['description']}",
+        f"Panjang region Envelope protein E ({stats['alignment_length']} bp)",
         "",
         "# Parameter Scoring",
         "Match = +2",
@@ -161,33 +197,37 @@ def export_stage_3_analysis(stats, mutation_events, aligned_seq1, aligned_seq2, 
     print(f"Ringkasan hasil untuk laporan: {OUTPUT_REPORT_TXT}")
 
 
-def main():
+def main() -> tuple[NeedlemanWunschDP, str, str]:
+    # Pipeline tujuh tahap.
     print("DETEKSI MUTASI DENGUE DENGAN NEEDLEMAN-WUNSCH".center(80))
     print("Analisis Sekuens DNA Varian Dengue".center(80))
-    
+
     print("\n[1] Pembacaan File FASTA")
-    print("-" * 80)
-    
+
     reader_1973 = FASTAReader(SEQUENCE_1973_PATH)
     header_1973, sequence_1973 = reader_1973.read_fasta()
     print(f"Sekuens 1973: {len(sequence_1973)} bp")
-    
+
     reader_2020 = FASTAReader(SEQUENCE_2020_PATH)
     header_2020, sequence_2020 = reader_2020.read_fasta()
     print(f"Sekuens 2020: {len(sequence_2020)} bp")
+
+    provenance = {
+        'reference_1973': parse_fasta_header(header_1973),
+        'query_2020': parse_fasta_header(header_2020),
+    }
     
     print("\n[2] Slicing Gen Envelope")
-    print("-" * 80)
     print(f"Region acuan dari sekuens 1973: posisi {ENVELOPE_START}-{ENVELOPE_END}")
     
     envelope_1973 = reader_1973.get_subsequence(ENVELOPE_START, ENVELOPE_END)
+    # Sekuens 2020 sudah envelope.
     envelope_2020 = sequence_2020
     
     print(f"Envelope 1973: {len(envelope_1973)} bp")
     print(f"Envelope 2020: {len(envelope_2020)} bp")
     
     print("\n[3] Inisialisasi Matriks DP")
-    print("-" * 80)
     
     nw = NeedlemanWunschDP(
         seq1=envelope_1973,
@@ -198,19 +238,17 @@ def main():
     )
     
     print("\n[4] Hasil Inisialisasi")
-    print("-" * 80)
     
     stats = nw.get_matrix_stats()
-    print(f"\nStatistik matriks:")
+    print("\nStatistik matriks:")
     print(f"  Dimensi: {stats['rows']} x {stats['cols']}")
     print(f"  Total sel: {stats['total_cells']:,}")
     print(f"  Min/Max: {stats['min_value']} / {stats['max_value']}")
     
     nw.display_dp_matrix(max_rows=12, max_cols=12)
     
-    nw.export_to_json(OUTPUT_JSON)
+    nw.export_to_json(OUTPUT_JSON, provenance)
     print("\n[5] Pengisian Matriks DP")
-    print("-" * 80)
     print("Mengisi matriks DP...")
 
     import time
@@ -224,27 +262,25 @@ def main():
     nw.display_dp_matrix(max_rows=12, max_cols=12)
 
     print("\n[6] Traceback Alignment")
-    print("-" * 80)
 
     aligned_seq1, aligned_seq2, alignment_bar = nw.traceback()
 
-    stats = nw.get_alignment_stats(aligned_seq1, aligned_seq2, alignment_bar)
-    print(f"\nStatistik alignment:")
-    print(f"  Panjang alignment : {stats['alignment_length']}")
-    print(f"  Match             : {stats['matches']}")
-    print(f"  Mismatch          : {stats['mismatches']}")
-    print(f"  Gap               : {stats['gaps']}")
-    print(f"  Identity          : {stats['identity_pct']}%")
-    print(f"  Skor akhir        : {stats['alignment_score']}")
+    align_stats = nw.get_alignment_stats(aligned_seq1, aligned_seq2, alignment_bar)
+    print("\nStatistik alignment:")
+    print(f"  Panjang alignment : {align_stats['alignment_length']}")
+    print(f"  Match             : {align_stats['matches']}")
+    print(f"  Mismatch          : {align_stats['mismatches']}")
+    print(f"  Gap               : {align_stats['gaps']}")
+    print(f"  Identity          : {align_stats['identity_pct']}%")
+    print(f"  Skor akhir        : {align_stats['alignment_score']}")
 
     nw.display_alignment(aligned_seq1, aligned_seq2, alignment_bar)
 
     nw.export_alignment_to_json(OUTPUT_ALIGNMENT_JSON, aligned_seq1, aligned_seq2, alignment_bar)
 
     print("\n[7] Analisis Hasil Alignment")
-    print("-" * 80)
     mutation_events = build_mutation_events(aligned_seq1, aligned_seq2)
-    export_stage_3_analysis(stats, mutation_events, aligned_seq1, aligned_seq2, alignment_bar)
+    export_stage_3_analysis(align_stats, mutation_events, aligned_seq1, aligned_seq2, alignment_bar, provenance)
     print(f"Total posisi berbeda: {len(mutation_events)}")
     print(f"Ringkasan hasil untuk laporan: {OUTPUT_REPORT_TXT}")
 
